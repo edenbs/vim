@@ -44,3 +44,7 @@ module.exports.query = query => {
       return provider;
   })
 };
+
+dal.createOrUpdate = data => {
+
+};

@@ -1,6 +1,7 @@
 const providersDal = require('../providers/dal');
 const createError = require('http-errors');
 const Joi = require('@hapi/joi');
+const pubsub = require('../../components/pubsub');
 
 const compareScores = (a, b) => {
   if (a.score < b.score) {
@@ -46,6 +47,11 @@ module.exports.create = req => {
     if (!res.length) {
         throw createError(400, 'Unavailable doctor or date');
     }
+
+    pubsub.publish('newAppointments', {
+        name: req.body.name,
+        date: req.body.data
+    });
 
     return res[0];
 };
